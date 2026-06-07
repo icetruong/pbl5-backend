@@ -10,6 +10,7 @@ import com.ice.pbl5.Enum.NotificationLevel;
 import com.ice.pbl5.Exception.ResourceNotFoundException;
 import com.ice.pbl5.Repository.DetectionRepo;
 import com.ice.pbl5.Repository.FruitCatalogRepo;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -157,7 +158,8 @@ public class DetectionAsyncService {
         }
 
         String normalizedFruitType = fruitType.trim();
-        List<FruitCatalog> fruitCatalogs = fruitCatalogRepo.findAll();
+        // ORDER BY name để thứ tự BIN cố định (findAll() không order → thứ tự tùy ý, có thể đổi)
+        List<FruitCatalog> fruitCatalogs = fruitCatalogRepo.findAll(Sort.by(Sort.Direction.ASC, "name"));
         for (int i = 0; i < fruitCatalogs.size(); i++) {
             FruitCatalog fruitCatalog = fruitCatalogs.get(i);
             if (fruitCatalog.getName() != null && fruitCatalog.getName().trim().equalsIgnoreCase(normalizedFruitType)) {
