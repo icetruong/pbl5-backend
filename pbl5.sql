@@ -143,3 +143,15 @@ CREATE INDEX idx_notifications_system_id ON notifications(system_id);
 CREATE INDEX idx_notifications_detection_id ON notifications(detection_id);
 CREATE INDEX idx_system_fruit_config_system_id ON system_fruit_config(system_id);
 CREATE INDEX idx_system_fruit_config_fruit_name ON system_fruit_config(fruit_name);
+
+-- =========================
+-- 9. SEED FRUIT CATALOG
+-- Tên (name) phải khớp đúng giá trị AI worker trả về (FRUIT_TYPE_MAP):
+-- CHERRY_TOMATO / STRAWBERRY / GRAPE / BLUEBERRY. Không khớp -> REJECT_BIN.
+-- =========================
+INSERT INTO fruit_catalog (name, vietnam_name) VALUES
+    ('BLUEBERRY',     'Việt quất'),
+    ('CHERRY_TOMATO', 'Cà chua bi'),
+    ('GRAPE',         'Nho'),
+    ('STRAWBERRY',    'Dâu tây')
+ON CONFLICT (name) DO NOTHING;
