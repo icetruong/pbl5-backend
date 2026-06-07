@@ -24,7 +24,7 @@ public class DetectionAsyncService {
     private static final BigDecimal CONFIDENCE_THRESHOLD = new BigDecimal("0.5");
 
     private final DetectionRepo detectionRepo;
-    private final AiTCPClientService aiTCPClientService;
+    private final AiHttpClientService aiHttpClientService;
     private final CommandService commandService;
     private final NotificationService notificationService;
     private final FruitCatalogRepo fruitCatalogRepo;
@@ -32,9 +32,9 @@ public class DetectionAsyncService {
     private final ImgUrlService imgUrlService;
     private final ImageStorageService imageStorageService;
 
-    public DetectionAsyncService(DetectionRepo detectionRepo, AiTCPClientService aiTCPClientService, CommandService commandService, NotificationService notificationService, FruitCatalogRepo fruitCatalogRepo, SSEService sseService, ImgUrlService imgUrlService, ImageStorageService imageStorageService) {
+    public DetectionAsyncService(DetectionRepo detectionRepo, AiHttpClientService aiHttpClientService, CommandService commandService, NotificationService notificationService, FruitCatalogRepo fruitCatalogRepo, SSEService sseService, ImgUrlService imgUrlService, ImageStorageService imageStorageService) {
         this.detectionRepo = detectionRepo;
-        this.aiTCPClientService = aiTCPClientService;
+        this.aiHttpClientService = aiHttpClientService;
         this.commandService = commandService;
         this.notificationService = notificationService;
         this.fruitCatalogRepo = fruitCatalogRepo;
@@ -53,7 +53,7 @@ public class DetectionAsyncService {
             detectionRepo.save(detection);
 
             byte[] imgBytes = imageStorageService.readImage(detection.getImageUrl());
-            AiTCPResponse aiTCPResponse = aiTCPClientService.classify(imgBytes);
+            AiTCPResponse aiTCPResponse = aiHttpClientService.classify(imgBytes);
 
             int processingTime = (int) Duration.between(startTime, LocalDateTime.now()).toMillis();
             detection.setAiProcessingTimeMs(processingTime);

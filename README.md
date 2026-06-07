@@ -59,10 +59,10 @@ server.port=8080
 
 app.base-url=http://localhost:8080
 
-ai.tcp.host=127.0.0.1
-ai.tcp.port=5000
-ai.tcp.connect-timeout-ms=3000
-ai.tcp.read-timeout-ms=10000
+ai.http.base-url=http://localhost:5000
+ai.http.api-key=local-dev-key
+ai.http.connect-timeout-ms=3000
+ai.http.read-timeout-ms=30000
 ```
 
 ## 5) Chay local
